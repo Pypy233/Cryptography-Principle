@@ -1,6 +1,12 @@
 package nju.py.otp.service;
 
 
-public interface OtpService {
-    
+import nju.py.otp.util.Response;
+
+public interface OTPService {
+
+    Response<String> encode(String plainText, String randomUnicodencode);
+
+
+    Response<String> decode(String cipher, String randomUnicode);
 }
