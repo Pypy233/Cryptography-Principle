@@ -6,6 +6,7 @@ import nju.py.otp.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
@@ -16,7 +17,7 @@ public class OTPController {
 
     private String randomUnicode;
 
-    @RequestMapping("/encode")
+    @RequestMapping(value = "/encode", method = RequestMethod.POST)
     @ResponseBody
     public Response<String> encode(String msg) {
         OTPCipher otpCipher = new OTPCipher(msg);
@@ -24,7 +25,7 @@ public class OTPController {
         return otpService.encode(msg, randomUnicode);
     }
 
-    @RequestMapping("/decode")
+    @RequestMapping(value = "/decode", method = RequestMethod.POST)
     @ResponseBody
     public Response<String> decode(String cipher) {
         return otpService.decode(cipher, randomUnicode);
