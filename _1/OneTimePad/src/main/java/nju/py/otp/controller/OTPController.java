@@ -15,19 +15,24 @@ public class OTPController {
     @Autowired
     private OTPService otpService;
 
-    private String randomUnicode;
+
+    @RequestMapping("/")
+    public String getIndex(){
+        return "/index.html";
+    }
 
     @RequestMapping(value = "/encode", method = RequestMethod.POST)
     @ResponseBody
     public Response<String> encode(String msg) {
         OTPCipher otpCipher = new OTPCipher(msg);
-        randomUnicode = otpCipher.getRandomUnicode().toString();
+        System.out.println(otpCipher.getRandomUnicode().toString());
+        String randomUnicode = otpCipher.getRandomUnicode().toString();
         return otpService.encode(msg, randomUnicode);
     }
 
     @RequestMapping(value = "/decode", method = RequestMethod.POST)
     @ResponseBody
-    public Response<String> decode(String cipher) {
+    public Response<String> decode(String cipher, String randomUnicode) {
         return otpService.decode(cipher, randomUnicode);
     }
 

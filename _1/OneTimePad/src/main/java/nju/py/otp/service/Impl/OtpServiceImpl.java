@@ -2,14 +2,16 @@ package nju.py.otp.service.Impl;
 
 import nju.py.otp.service.OTPService;
 import nju.py.otp.util.Response;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.stereotype.Service;
 
 @Service
 public class OTPServiceImpl implements OTPService {
     @Override
-    public Response<String> encode(String plainText, String randomUnicodencode) {
+    public Response<String> encode(String plainText, String randomUnicode) {
         try {
-            return new Response<>(true, arrayOrArray(plainText, randomUnicodencode), "Succeed to encode...");
+            String finalString = arrayOrArray(plainText, randomUnicode) + " " + randomUnicode;
+            return new Response<>(true, finalString, "Succeed to encode...");
         }catch (Exception ex){
             ex.printStackTrace();
             return new Response<>(false, null, "Fail to encode...");

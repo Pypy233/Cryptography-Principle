@@ -23,7 +23,7 @@ public class OTPServiceImplTest {
         System.out.println("Random: " + randomUnicode);
         String cipher = otpService.encode(msg, randomUnicode).getData();
         System.out.println("Cipher: " + cipher);
-        System.out.println("PlainText:" + otpService.decode(cipher, randomUnicode).getData());
+        System.out.println("PlainText: " + otpService.decode(cipher, randomUnicode).getData());
     }
 
 }

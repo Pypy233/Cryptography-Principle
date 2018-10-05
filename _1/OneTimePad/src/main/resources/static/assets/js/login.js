@@ -1,55 +1,59 @@
 $("#btn").on('click', function () {
-    login();
+    encode();
 });
 
-$(document).keydown(function (event) {
-    if (event.keyCode == 13) {
-        login();
-    }
+$("#btn1").on('click', function () {
+    decode();
 });
 
-function login() {
-    var user = $('#username').val();
-    var password = $('#password').val();
+
+
+function encode() {
+    var msg = $('#username').val();
+ //   var password = $('#password').val();
     $.ajax({
-        type: "GET",
-        url: "/login",
+        type: "POST",
+        url: "/encode",
         dataType: "json",
         data: {
-            user: user,
-            password: password
+            msg: msg
         },
 
         success: function (data) {
             if (data.success) {
-                setCookie("username", user, 1, "/");
-                setCookie("password", password, 1, "/");
+                alert(data.data);
+                var strArray = data.data.split(" ");
+                document.getElementById('password').value = strArray[1] ;
+                document.getElementById('result').value = strArray[0];
+            }
+            else
+                alert("Error!");
+        },
+        error: function () {
+            alert("Network warning");
+        }
+    });
+}
 
-                if (user == "admin")
-                    window.location.href = "gentelella/admin/project_detail.html";
-                else {
-                    $.ajax({
-                        type: "GET",
-                        url: "/getUserInfo",
-                        dataType: "json",
-                        data: {
-                            userName: user
-                        },
-                        success: function (data) {
 
-                            var userType = data.data.userType;
+function decode() {
+    var msg = $('#username').val();
+    var randomUnicode = document.getElementById('password').value;
+    $.ajax({
+        type: "POST",
+        url: "/decode",
+        dataType: "json",
+        data: {
+            cipher: msg,
+            randomUnicode: randomUnicode
+        },
 
-                            if (userType == "Worker")
-                                window.location.href = "gentelella/worker/projects-taskMarket.html";
-                            else if (userType == "Requester")
-                                window.location.href = "gentelella/requester/projects-taskMarket.html";
-                            else
-                                alert("Login Error!")
-                        }
-
-                    })
-                }
-            } else
+        success: function (data) {
+            if (data.success) {
+                alert(data.data);
+                document.getElementById('result').value = data.data
+            }
+            else
                 alert("Error!");
         },
         error: function () {
